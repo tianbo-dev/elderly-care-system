@@ -1,0 +1,41 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: elderly-care-backend
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 通过环境变量覆盖；本地开发不配置时使用默认值（root/root），生产环境必须注入环境变量
+    url: ${DB_URL:jdbc:mysql://localhost:3306/lekang_elderly?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+jwt:
+  # 开发默认值仅用于本地调试；生产必须通过 JWT_SECRET 环境变量注入（HS256 要求至少 32 字节）
+  secret: ${JWT_SECRET:dev-only-lekang-secret-key-please-change-0123456789abcdef}
+  expiration: 86400000
+
+mqtt:
+  broker-url: ${MQTT_BROKER_URL:tcp://broker.emqx.io:1883}
+  client-id: lekang-backend-${random.uuid}
+  username: ${MQTT_USERNAME:public}
+  password: ${MQTT_PASSWORD:public}
+  topic: ${MQTT_TOPIC:device/fall/#}
+  qos: 1
+
+logging:
+  level:
+    com.lekang.elderlycare: debug

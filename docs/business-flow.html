@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>乐康养老系统 - 业务流程图</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f3f4f6;
+            color: #1f2937;
+            padding: 40rpx;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .header h1 {
+            font-size: 40px;
+            color: #0f766e;
+            margin-bottom: 10px;
+        }
+        .header p {
+            color: #6b7280;
+            font-size: 16px;
+        }
+        .flow-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .flow-card h2 {
+            font-size: 24px;
+            color: #0f766e;
+            margin-bottom: 10px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f0fdfa;
+        }
+        .flow-card .desc {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background: #fafafa;
+            border-radius: 12px;
+            min-height: 300px;
+        }
+        .mermaid svg {
+            max-width: 100%;
+            height: auto;
+        }
+        @media print {
+            body { background: #fff; padding: 0; }
+            .flow-card { box-shadow: none; border-bottom: 1px solid #e5e7eb; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 乐康养老系统 - 业务流程图</h1>
+            <p>乐康养老系统实训项目核心业务流程可视化</p>
+        </div>
+
+        <div class="flow-card">
+            <h2>📝 3.1 登录注册流程</h2>
+            <p class="desc">用户打开登录页 → 判断是否已有账号 → 登录验证或注册 → 获取 JWT Token → 进入系统</p>
+            <div class="mermaid">
+flowchart TD
+    A[用户打开登录页] --> B{已有账号?}
+    B -->|是| C[输入账号密码]
+    B -->|否| D[跳转注册页]
+    D --> E[填写注册信息]
+    E --> F[注册成功 自动登录]
+    C --> G[后端验证账号密码]
+    G --> H{验证通过?}
+    H -->|是| I[返回 JWT Token]
+    H -->|否| J[提示账号或密码错误]
+    I --> K[前端存储 Token]
+    K --> L[进入系统主页]
+            </div>
+        </div>
+
+        <div class="flow-card">
+            <h2>📋 3.2 入住登记 CRUD 流程</h2>
+            <p class="desc">管理员登录后台 → 入住管理页面 → 执行增删改查操作 → 数据库更新 → 前端列表刷新</p>
+            <div class="mermaid">
+flowchart TD
+    A[管理员登录后台] --> B[入住管理页面]
+    B --> C{操作类型}
+    C -->|新增| D[填写老人信息表单]
+    C -->|查询| E[列表展示/搜索]
+    C -->|修改| F[编辑表单]
+    C -->|删除| G[确认删除]
+    D --> H[提交到后端]
+    F --> H
+    G --> I[软删除标记 deleted=1]
+    H --> J[数据库增/改]
+    I --> J
+    E --> K[后端分页查询]
+    J --> L[返回结果]
+    K --> L
+    L --> M[前端更新列表]
+            </div>
+        </div>
+
+        <div class="flow-card">
+            <h2>⚠️ 3.3 跌倒告警流程（核心）</h2>
+            <p class="desc">老人跌倒 → 设备检测 → MQTTX 模拟上报 → Broker 转发 → 后端订阅 → 关联老人 → 写入告警 → 后台展示 → 管理员处理</p>
+            <div class="mermaid">
+flowchart TD
+    A[老人跌倒] --> B[设备传感器检测]
+    B --> C[MQTTX 客户端发布消息]
+    C --> D[MQTT Broker broker.emqx.io:1883]
+    D --> E[后端 MqttSubscriber 订阅接收]
+    E --> F[解析 payload 中的 deviceId]
+    F --> G[查询 device 表得到 resident_id]
+    G --> H[查询 resident 表得到老人姓名]
+    H --> I[写入 alarm 告警表]
+    I --> J[Web 后台告警列表展示]
+    J --> K[管理员点击处理]
+    K --> L[更新 alarm 状态为已处理]
+    L --> M[记录处理人和备注]
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+</html>

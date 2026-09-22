@@ -1,0 +1,26 @@
+{
+    "pages": [
+        { "path": "pages/login/login", "style": { "navigationBarTitleText": "登录" } },
+        { "path": "pages/register/register", "style": { "navigationBarTitleText": "注册" } },
+        { "path": "pages/index/index", "style": { "navigationBarTitleText": "乐康养老" } },
+        { "path": "pages/resident/resident", "style": { "navigationBarTitleText": "老人信息" } },
+        { "path": "pages/alarm/alarm", "style": { "navigationBarTitleText": "告警记录" } },
+        { "path": "pages/checkin/checkin", "style": { "navigationBarTitleText": "入住办理" } },
+        { "path": "pages/checkout/checkout", "style": { "navigationBarTitleText": "退住办理" } }
+    ],
+    "globalStyle": {
+        "navigationBarTextStyle": "white",
+        "navigationBarTitleText": "乐康养老",
+        "navigationBarBackgroundColor": "#0f766e",
+        "backgroundColor": "#f3f4f6"
+    },
+    "tabBar": {
+        "color": "#9ca3af",
+        "selectedColor": "#0f766e",
+        "backgroundColor": "#ffffff",
+        "list": [
+            { "pagePath": "pages/index/index", "text": "首页" },
+            { "pagePath": "pages/resident/resident", "text": "我的老人" }
+        ]
+    }
+}
