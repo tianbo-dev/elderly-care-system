@@ -1,6 +1,6 @@
 {
     "name" : "乐康养老",
-    "appid" : "wxc0d1efd680686ed8",
+    "appid" : "",
     "description" : "乐康养老小程序端",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -10,7 +10,7 @@
     },
     "quickapp" : {},
     "mp-weixin" : {
-        "appid" : "wxc0d1efd680686ed8",
+        "appid" : "",
         "setting" : {
             "urlCheck" : false
         },
